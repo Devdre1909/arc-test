@@ -7,10 +7,10 @@ function App() {
         <Arc 
           mainStrokeColor="blue"
           secondaryStrokeColor="skyblue"
-          width={500}
-          height={500}
+          width={300}
+          height={300}
           strokeWidth={10}
-          value={67.9}
+          value={67.3}
         />
       </div>
     </div>

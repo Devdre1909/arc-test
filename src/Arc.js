@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 
 const Arc = ({
   mainStrokeColor,
@@ -26,12 +26,12 @@ const Arc = ({
   const refCirleSecondary = React.useRef();
   const backgroundCircleRef = React.useRef();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     var circleMain = refCirleMain.current;
     var circleSecondary = refCirleSecondary.current;
 
     setValueWhole(Number(value.toString().split(".")[0]));
-    setValueDecimal(Number(value.toString().split(".")[1]) || 0);
+    setValueDecimal(Math.round(Number(value.toString().split(".")[1])));
 
     var radiusMain = circleMain.r.baseVal.value;
     var radiusSecondary = circleSecondary.r.baseVal.value;
@@ -53,7 +53,7 @@ const Arc = ({
       circumferenceSecondary -
       ((valueDecimal * 10) / 2 / 100) * circumferenceSecondary;
 
-      refCirleSecondary.current.style.strokeDashoffset = offsetSecondary;
+    refCirleSecondary.current.style.strokeDashoffset = offsetSecondary;
     circleMain.style.strokeDashoffset = offsetMain;
     backgroundCircleRef.current.style.strokeDashoffset = offsetGeneral;
   }, [value, valueDecimal, valueWhole]);
@@ -80,11 +80,16 @@ const Arc = ({
     }));
 
     console.log(sizeAndRadius);
-  }, [height, strokeWidth, width]);
+  }, []);
 
   return (
     <>
-      <div className="wrapper">
+      <div
+        style={{
+          width: width + "px",
+        }}
+        className="wrapper"
+      >
         <svg className="progress-ring" width={width} height={height}>
           <circle
             ref={backgroundCircleRef}
@@ -109,8 +114,8 @@ const Arc = ({
         </svg>
         <svg
           className="progress-ring"
-          width={"480"}
-          height={"480"}
+          width={sizeAndRadius.widthSecondary}
+          height={sizeAndRadius.heightSecondary}
         >
           <circle
             ref={refCirleSecondary}
